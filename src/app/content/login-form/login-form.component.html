@@ -1,0 +1,15 @@
+<div>
+  <div nz-flex nzJustify="center" nzAlign="center" style="background-color: fuchsia; margin: auto; top: 20vh;">
+    <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <div>
+        <input formControlName="username" placeholder="Username" />
+      </div>
+      <div>
+        <input formControlName="password" placeholder="Password" />
+      </div>
+      <div>
+        <button nz-button nzType="primary" (click)="submitForm()">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<nz-layout class="layout">
+    <nz-sider>
+        <nz-menu nz-menu nzMode="inline">
+            <ul>
+                <li nz-menu-item routerLink="/roles" routerLinkActive="ant-menu-item-selected">
+                    Roles
+                </li>
+                <li nz-menu-item routerLink="/users" routerLinkActive="ant-menu-item-selected">
+                    Users
+                </li>
+            </ul>
+        </nz-menu>
+    </nz-sider>
+    <nz-layout>
+        <nz-header>This is nz-headerr <span>
+                <h1>buhahah</h1>
+            </span> </nz-header>
+        <nz-content>
+            <router-outlet />
+        </nz-content>
+    </nz-layout>
+</nz-layout>
