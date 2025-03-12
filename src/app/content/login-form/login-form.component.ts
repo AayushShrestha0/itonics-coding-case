@@ -34,7 +34,7 @@ export class LoginFormComponent {
   });
 
   submitForm() {
-    console.log(this.loginForm.value, 'form values on login form');
+    console.log(this.loginForm.value, 'form values on login');
     if(!this.loginForm.valid){
       return
     }

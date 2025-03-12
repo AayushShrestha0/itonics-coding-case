@@ -1,0 +1,11 @@
+.login-container{
+    padding-top:25vh;
+    height: 100vh;
+    background-color: darkslateblue;
+}
+
+.login-form{
+    margin: auto;
+    height: 30vh;
+    width: 40vw;
+}

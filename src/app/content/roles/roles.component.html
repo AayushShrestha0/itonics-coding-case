@@ -1,0 +1,62 @@
+<div nzflex style="height: 10vh">
+    <button nzIcon="plus" (click)="toggleEdit()">Create</button>
+</div>
+<nz-table #roleTable [nzData]="roleList" nzShowPagination="false">
+    <thead>
+        <tr>
+            <th>Role Name</th>
+            <th>Permissions</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (data of roleTable.data; track data; let index = $index) {
+        <tr>
+            <td>
+                {{data.roleName}}
+            </td>
+            <td>
+                {{ data.allowedPermissions.join(",") }}
+            </td>
+            <td>
+                <button nz-button (click)="editRole(index)">
+                    <nz-icon nzType="edit"></nz-icon>
+                </button>
+
+                <button nz-button>
+                    <nz-icon nzType="delete"></nz-icon>
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</nz-table>
+
+
+<nz-modal [(nzVisible)]="openEdit" (nzOnCancel)="toggleEdit()" (nzOnOk)="saveChanges()" nzOkText="Save" nzTitle="Create Role">
+    <ng-container *nzModalContent>
+        <div>
+            <form nz-form action="" [formGroup]="rolesForm">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="">
+                        <nz-input-group>
+                            <input nz-input type="text" placeholder="Role Name" formControlName="roleName" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="">
+                       <nz-select nzMode="multiple" nzPlaceHolder="Select Permissions" [nzOptions]="permissions" formControlName="allowedPermissions" >
+                       </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="">
+                       <nz-select nzMode="multiple" nzPlaceHolder="Select Features to allow" [nzOptions]="permissions" formControlName="allowedPermissions" >
+                       </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+    </ng-container>
+</nz-modal>

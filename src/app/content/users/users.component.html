@@ -1,0 +1,65 @@
+<div>
+    <button nz-button (click)="toggleEdit()">Create User</button>
+</div>
+<nz-table #roleTable nzShowPagination="false">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Full Name</th>
+            <th>Role</th>
+            <th>Password</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (data of []; track data) {
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        }
+    </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="openEdit" (nzOnCancel)="toggleEdit()" (nzOnOk)="saveChanges()" nzOkText="Save"
+    nzTitle="Create User">
+    <ng-container *nzModalContent>
+        <div>
+            <form nz-form action="" [formGroup]="userForm" nzLayout="vertical">
+                <nz-form-item>
+                    <nz-form-label>User Name</nz-form-label>
+                    <nz-form-control nzErrorTip="">
+                        <nz-input-group>
+                            <input nz-input type="text" placeholder="User Name" formControlName="" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Select Role</nz-form-label>
+                    <nz-form-control nzErrorTip="">
+                        <nz-select nzPlaceHolder="Select Role" formControlName="">
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Full Name</nz-form-label>
+                    <nz-form-control nzErrorTip="">
+                        <nz-input-group>
+                            <input nz-input type="text" placeholder="Full Name" formControlName="" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>Password</nz-form-label>
+                    <nz-form-control nzErrorTip="">
+                        <nz-input-group>
+                            <input nz-input type="password" placeholder="Password" formControlName="" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+    </ng-container>
+</nz-modal>
