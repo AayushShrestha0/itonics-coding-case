@@ -1,15 +1,17 @@
 import { Routes } from '@angular/router';
 import { LoginFormComponent } from './content/login-form/login-form.component';
 import { LayoutComponent } from './layout/layout.component';
+import { authChildGuard, authGuard } from './guards/auth-guard.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
+    canActivate:[authGuard],
     component: LoginFormComponent,
   },
   {
     path: '',
-    canActivate: [],
+    canActivateChild:[authChildGuard],
     component:LayoutComponent,
     children: [
       {

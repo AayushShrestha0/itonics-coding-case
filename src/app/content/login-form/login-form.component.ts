@@ -10,6 +10,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login-form',
@@ -27,7 +28,8 @@ import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
 export class LoginFormComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router)
-
+  private loginService = inject(LoginService);
+  
   loginForm = this.fb.group({
     username:['', [Validators.required]],
     password: ['', [Validators.required]]
@@ -38,7 +40,21 @@ export class LoginFormComponent {
     if(!this.loginForm.valid){
       return
     }
+    const username = this.loginForm.get('username')?.value;
+    const password = this.loginForm.get('password')?.value;
 
-    this.router.navigate(['/roles']);
+    if(username && password){
+      this.loginService.userLogin(username, password).then((value)=>{
+        if(value){
+          this.router.navigate(['/roles']);
+        }
+      });
+
+    }
+
+    
+
+  
+    // this.router.navigate(['/roles']);
   }
 }
