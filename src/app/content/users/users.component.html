@@ -1,5 +1,5 @@
-<div>
-    <button nz-button (click)="toggleEdit()">Create User</button>
+<div nzflex class="add-user-button-container">
+    <button nz-button nzType="primary" (click)="toggleEdit()">Add a New User <nz-icon nzType="plus-square" nzTheme="outline" /></button>
 </div>
 <nz-table #usersTable [nzData]="usersList" nzShowPagination="false">
     <thead>
@@ -27,11 +27,10 @@
                 {{data.password}}
             </td>
             <td>
-                <button nz-button (click)="editUser(index)">
+                <button class="action-buttons" nzTooltipTitle="Edit User" nzTooltipPlacement="bottom"  nz-button nz-tooltip (click)="editUser(index)">
                     <nz-icon nzType="edit"></nz-icon>
                 </button>
-
-                <button nz-button (click)="deleteUser(data.id)">
+                <button class="action-buttons" nzTooltipTitle="Delete User" nzTooltipPlacement="bottom"  nzPopconfirmTitle="Are you sure you want to delete?" nz-button nz-tooltip nz-popconfirm (nzOnConfirm)="deleteUser(data.id)">
                     <nz-icon nzType="delete"></nz-icon>
                 </button>
             </td>
@@ -44,7 +43,7 @@
     nzTitle="Create User">
     <ng-container *nzModalContent>
         <div>
-            <form nz-form action="" [formGroup]="userForm" nzLayout="vertical">
+            <form nz-form [formGroup]="userForm" nzLayout="vertical">
                 <nz-form-item>
                     <nz-form-label>User Name</nz-form-label>
                     <nz-form-control nzErrorTip="">
@@ -55,7 +54,6 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Select Role</nz-form-label>
-                    
                         <nz-form-control nzErrorTip="">
                             <nz-select nzPlaceHolder="Select Role" 
                                 formControlName="role">
@@ -66,7 +64,6 @@
                                 }   
                             </nz-select>
                         </nz-form-control>
-                    
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Full Name</nz-form-label>

@@ -23,24 +23,33 @@ export class RolesService {
 
   updateRole(params: any, index: any){
     console.log('calling the update roles', params);
-    
+    return new Promise((resolve, reject)=>{
     this.https.patch(`http://localhost:3000/roles/${index}`, params).subscribe(resp=>{
-      console.log(resp, 'response');
-      
+      if(resp){
+        resolve(resp);
+      }
     });
+  });
   }
 
   addRole(params:any){
+    return new Promise((resolve, reject)=>{
     this.https.post(`http://localhost:3000/roles`, params).subscribe((resp)=>{
-      console.log('response', resp);
-      
+      if(resp){
+        resolve(resp);
+      }
     });
+  });
   }
 
   deleteRole(id:number){
-    this.https.delete(`http://localhost:3000/roles/${id}`).subscribe((resp)=>{
-      console.log('response', resp);
+    return new Promise((resolve, reject)=>{
+      this.https.delete(`http://localhost:3000/roles/${id}`).subscribe((resp)=>{
+      if(resp){
+        resolve(resp);
+      }
       
     });
+  });
   }
 }

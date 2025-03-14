@@ -10,22 +10,14 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { map  } from 'rxjs';
 import { RolesService } from '../../services/roles.service';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-
-interface Role{
-  id: number,
-  roleName: string,
-  allowedPermissions: string[],
-  features: string[]
-}
-
-interface Permission{
-  id: number,
-  label:string,
-  value: string
-}
+import { Role } from '../../models/roles.model';
+import { Permission } from '../../models/permission.model';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-roles',
-  imports: [ReactiveFormsModule, NzTableModule, NzInputModule, NzModalModule, NzIconModule, NzFormModule, NzSelectModule, NzToolTipModule],
+  imports: [ReactiveFormsModule, NzTableModule, NzInputModule, NzModalModule, NzIconModule, NzFormModule, NzSelectModule, NzButtonModule, NzToolTipModule, NzPopconfirmModule],
   templateUrl: './roles.component.html',
   styleUrl: './roles.component.css',
 })
@@ -33,7 +25,7 @@ export class RolesComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
   private rolesService = inject(RolesService);
-  
+  private message = inject(NzMessageService);
   
   openEdit:boolean = false;
   isEdit:boolean = false;
@@ -43,7 +35,7 @@ export class RolesComponent implements OnInit {
   features = [];
 
   rolesForm = this.fb.group({
-    roleName: ['', [Validators.required]],
+    roleName: ['', [Validators.required, Validators.pattern(/\S/)]],
     allowedPermissions: [['']],
     features: [['']]
   });
@@ -56,7 +48,7 @@ export class RolesComponent implements OnInit {
     });
 
     this.rolesForm.get('userName')?.valueChanges.subscribe((value)=>{
-      const existingUsername = this.rolesList.find((role)=> role.roleName == value );
+      const existingRole = this.rolesList.find((role)=> role.roleName == value );
     });
   }
   toggleEdit(){
@@ -69,24 +61,32 @@ export class RolesComponent implements OnInit {
   }
 
   saveChanges(){
-    console.log(this.rolesForm.value, 'Form values');
     if(!this.rolesForm.valid){
+      this.rolesForm.markAllAsTouched();
+      this.rolesForm.updateValueAndValidity();
       return
     }
     const changes = this.rolesForm.value;
 
     //create a new role if all okay
-    console.log(this.isEdit);
+
     if(this.isEdit){
       const role = this.rolesList[this.editId];
-      console.log(role, 'index');
-      
+
       if(role && role.id){
-        this.rolesService.updateRole(changes, role.id);
+        this.rolesService.updateRole(changes, role.id).then(()=>{
+          this.message.success('Role updated successfully!', {
+            nzDuration:3000
+          });
+        });
         return
       }
     }
-    this.rolesService.addRole(changes);
+    this.rolesService.addRole(changes).then(()=>{
+        this.message.success('Role added successfully!', {
+          nzDuration:3000
+      });
+    });
   }
 
   editRole(index:number){
@@ -98,6 +98,10 @@ export class RolesComponent implements OnInit {
   }
 
     deleteRole(index:number){
-      this.rolesService.deleteRole(index);
+      this.rolesService.deleteRole(index).then(()=>{
+        this.message.success('Role deleted successfully!', {
+          nzDuration:3000
+        });
+      });
     }
 }

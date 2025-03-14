@@ -1,22 +1,24 @@
 <div class="login-container">
-    <div class="login-form" nz-flex nzJustify="center" nzAlign="center" style="background-color: fuchsia; margin: auto; top: 20vh;">
-        <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+    <div class="login-form" nz-flex nzJustify="center" nzAlign="center">
+        <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()" nzLayout="vertical">
             <nz-form-item>
-                <nz-form-control nzPrefixIcon="user">
+                <nz-form-label nzRequired>Username</nz-form-label>
+                <nz-form-control nzErrorTip="Username is required">
                     <nz-input-group nzPrefixIcon="user">
                         <input nz-input type="text" formControlName="username" placeholder="Username" />
                     </nz-input-group>
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-                <nz-form-control>
-                    <nz-input-group nzPrefixIcon="lock">
-                        <input nz-input type="password" formControlName="password" placeholder="Password" />
+                <nz-form-label nzRequired>Password</nz-form-label>
+                <nz-form-control nzErrorTip="Password is required">
+                    <nz-input-group nzPrefixIcon="lock" >
+                        <input nz-input type="password" formControlName="password" placeholder="Password" autocomplete="new-password"/>
                     </nz-input-group>
                 </nz-form-control>
             </nz-form-item>
             <div>
-                <button nz-button nzType="primary">Login</button>
+                <button nz-button nzType="primary" [disabled]="!loginForm.valid" nzBlock>Login</button>
             </div>
         </form>
     </div>

@@ -1,5 +1,5 @@
-<div nzflex style="height: 10vh">
-    <button nzIcon="plus" (click)="toggleEdit()">Create</button>
+<div nzflex class="add-role-button-container">
+    <button   nz-button nzType="primary" (click)="toggleEdit()">Add a new role <nz-icon nzType="plus-square" nzTheme="outline" /> </button>
 </div>
 <nz-table #roleTable [nzData]="rolesList" nzShowPagination="false">
     <thead>
@@ -17,13 +17,13 @@
             </td>
             <td>
                     {{ data.allowedPermissions.join(",") }}
-                            </td>
+            </td>
             <td>
-                <button nz-button (click)="editRole(index)">
+                <button class="action-buttons" nzTooltipTitle="Edit Role" nzTooltipPlacement="bottom"  nz-button nz-tooltip (click)="editRole(index)">
                     <nz-icon nzType="edit"></nz-icon>
                 </button>
 
-                <button nz-button (click)="deleteRole(data.id)">
+                <button class="action-buttons" nzTooltipTitle="Delete Role" nzTooltipPlacement="bottom"  nzPopconfirmTitle="Are you sure you want to delete?" nz-button nz-tooltip nz-popconfirm (nzOnConfirm)="deleteRole(data.id)">
                     <nz-icon nzType="delete"></nz-icon>
                 </button>
             </td>
@@ -38,19 +38,25 @@
         <div>
             <form nz-form action="" [formGroup]="rolesForm">
                 <nz-form-item>
-                    <nz-form-control nzErrorTip="">
+                    <nz-form-label nzRequired>Role Name</nz-form-label>
+
+                    <nz-form-control nzErrorTip="Role name is required and should be unique!">
                         <nz-input-group>
                             <input nz-input type="text" placeholder="Role Name" formControlName="roleName" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
+                    <nz-form-label>Selet Permissions</nz-form-label>
+
                     <nz-form-control nzErrorTip="">
                        <nz-select nzMode="multiple" nzPlaceHolder="Select Permissions" [nzOptions]="permissions" formControlName="allowedPermissions" >
                        </nz-select>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
+                    <nz-form-label>Select Features</nz-form-label>
+
                     <nz-form-control nzErrorTip="">
                        <nz-select nzMode="multiple" nzPlaceHolder="Select Features to allow" [nzOptions]="features" formControlName="features" >
                        </nz-select>

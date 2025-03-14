@@ -25,7 +25,7 @@
   "roles": [
     {
       "id": "1",
-      "roleName": "ChangedAdmin",
+      "roleName": "Admin",
       "allowedPermissions": [
         "Add",
         "Edit",

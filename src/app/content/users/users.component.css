@@ -1,0 +1,11 @@
+.add-user-button-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 10vh;
+    padding-right: 15px;
+}
+
+.action-buttons{
+    margin: 5px;
+}

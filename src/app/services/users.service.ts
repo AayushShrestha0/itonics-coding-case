@@ -17,21 +17,33 @@ export class UsersService {
   }
 
   addUser(params: any){
+    return new Promise((resolve, reject)=>{
     this.https.post('http://localhost:3000/users', params).subscribe((resp)=>{
-      console.log("response", resp)
-    })
+      if(resp){
+        resolve(resp);
+      }
+    });
+  }); 
   }
 
   updateUser(params: any, id: any){
+    return new Promise((resolve, reject)=>{
     this.https.patch(`http://localhost:3000/users/${id}`, params).subscribe((resp)=>{
-      console.log("Response", resp);
-    })
+      if(resp){
+        resolve(resp);
+      }
+    });
+  });
   }
 
   deleteUser(id: any){
+    return new Promise((resolve, reject)=>{
     this.https.delete(`https://localhost:3000/users/${id}`).subscribe((resp)=>{
-      console.log("Response", resp);
-    })
+      if(resp){
+        resolve(resp);
+      }
+    });
+    });
   }
 
 }

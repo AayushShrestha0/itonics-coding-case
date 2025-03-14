@@ -10,17 +10,14 @@ import { UsersService } from '../../services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-
-interface User{
-  id:number,
-  userName: string,
-  password: string,
-  fullName: string,
-  role: string
-}
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { User } from '../../models/user.model';
+import { Role } from '../../models/roles.model';
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-users',
-  imports: [ReactiveFormsModule, NzTableModule, NzInputModule, NzModalModule, NzIconModule, NzFormModule, NzSelectModule, NzToolTipModule],
+  imports: [ReactiveFormsModule, NzTableModule, NzInputModule, NzModalModule, NzIconModule, NzFormModule, NzSelectModule, NzButtonModule, NzToolTipModule, NzPopconfirmModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
@@ -28,6 +25,7 @@ export class UsersComponent implements OnInit{
   private fb = inject(FormBuilder);
   private userService = inject(UsersService);
   private route = inject(ActivatedRoute);
+  private message = inject(NzMessageService);
   
   usersList: User[] = [];
   rolesList:any = [];
@@ -36,7 +34,7 @@ export class UsersComponent implements OnInit{
   editId: number = 1;
 
   userForm = this.fb.group({
-    userName: ['', Validators.required],
+    userName: ['', Validators.required, Validators.pattern(/\S/)],
     fullName:['', Validators.required],
     password: ['', Validators.required],
     role:['', Validators.required]
@@ -53,9 +51,14 @@ export class UsersComponent implements OnInit{
     });
 
     this.userForm.get('userName')?.valueChanges.subscribe((value)=>{
-      const existingUsername = this.usersList.find((user)=> user.userName == value );
+      const existingUsername = this.usersList.find((user: User)=> user.userName == value );
+      if(existingUsername){
+
+      }
     });
+
   }
+
 
   toggleEdit(){
     this.openEdit = !this.openEdit;
@@ -71,11 +74,19 @@ export class UsersComponent implements OnInit{
       return
     }
     if(this.isEdit){
-      this.userService.updateUser(params, this.editId);
+      this.userService.updateUser(params, this.editId).then(()=>{
+        this.message.success('User updated successfully!', {
+          nzDuration:3000
+        })
+      });
       this.editId = 0;
       return
     }
-    this.userService.addUser(params);
+    this.userService.addUser(params).then(()=>{
+      this.message.success('User added successfully!', {
+        nzDuration:3000
+      })
+    });
 
   }
 
@@ -89,6 +100,10 @@ export class UsersComponent implements OnInit{
   }
 
   deleteUser(id:number){
-    this.userService.deleteUser(id);
+    this.userService.deleteUser(id).then(()=>{
+      this.message.success('User deleted successfully!', {
+        nzDuration:3000
+      })
+    });
   }
 }
