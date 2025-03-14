@@ -6,6 +6,20 @@
       "fullName": "Admin",
       "role": "Admin",
       "password": "super@admin"
+    },
+    {
+      "id": "eb5b",
+      "userName": "username",
+      "fullName": "user name",
+      "password": "123",
+      "role": {
+        "id": "7201",
+        "roleName": "NewRoleTest",
+        "allowedPermissions": [
+          "View"
+        ],
+        "features": null
+      }
     }
   ],
   "roles": [

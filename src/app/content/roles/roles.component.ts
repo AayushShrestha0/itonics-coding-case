@@ -9,6 +9,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { map  } from 'rxjs';
 import { RolesService } from '../../services/roles.service';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 interface Role{
   id: number,
@@ -24,7 +25,7 @@ interface Permission{
 }
 @Component({
   selector: 'app-roles',
-  imports: [ReactiveFormsModule, NzTableModule, NzInputModule, NzModalModule, NzIconModule, NzFormModule, NzSelectModule],
+  imports: [ReactiveFormsModule, NzTableModule, NzInputModule, NzModalModule, NzIconModule, NzFormModule, NzSelectModule, NzToolTipModule],
   templateUrl: './roles.component.html',
   styleUrl: './roles.component.css',
 })
@@ -52,6 +53,10 @@ export class RolesComponent implements OnInit {
       this.rolesList = value.roles;
       this.permissions = value.permissions;
       this.features = value.features;
+    });
+
+    this.rolesForm.get('userName')?.valueChanges.subscribe((value)=>{
+      const existingUsername = this.rolesList.find((role)=> role.roleName == value );
     });
   }
   toggleEdit(){

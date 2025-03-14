@@ -33,6 +33,11 @@ export const routes: Routes = [
             (c) => c.RolesComponent
           ),
       },
+      {
+        path:'**',
+        redirectTo: '/login',
+        pathMatch: 'full'
+      }
     ],
   },
 ];

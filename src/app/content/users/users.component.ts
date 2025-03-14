@@ -9,6 +9,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { UsersService } from '../../services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 interface User{
   id:number,
@@ -19,7 +20,7 @@ interface User{
 }
 @Component({
   selector: 'app-users',
-  imports: [ReactiveFormsModule, NzTableModule, NzInputModule, NzModalModule, NzIconModule, NzFormModule, NzSelectModule],
+  imports: [ReactiveFormsModule, NzTableModule, NzInputModule, NzModalModule, NzIconModule, NzFormModule, NzSelectModule, NzToolTipModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
@@ -29,7 +30,7 @@ export class UsersComponent implements OnInit{
   private route = inject(ActivatedRoute);
   
   usersList: User[] = [];
-  rolesList = [];
+  rolesList:any = [];
   openEdit: boolean = false;
   isEdit: boolean = false;
   editId: number = 1;
@@ -47,12 +48,19 @@ export class UsersComponent implements OnInit{
       
       this.usersList = userData['users'];
       this.rolesList = userData['roles'];
+
+      // this.rolesList = this.rolesList
+    });
+
+    this.userForm.get('userName')?.valueChanges.subscribe((value)=>{
+      const existingUsername = this.usersList.find((user)=> user.userName == value );
     });
   }
 
   toggleEdit(){
     this.openEdit = !this.openEdit;
     if(!this.openEdit){
+      this.userForm.controls.userName.enable();
       this.userForm.reset();
     }
   }
@@ -73,6 +81,7 @@ export class UsersComponent implements OnInit{
 
   editUser(index: number){
     const user = this.usersList[index];
+    this.userForm.controls.userName.disable();
     this.userForm.patchValue(user);
     this.editId = user['id'];
     this.openEdit = true;

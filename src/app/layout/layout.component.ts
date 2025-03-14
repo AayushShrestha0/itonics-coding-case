@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -11,5 +11,19 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
+  private router = inject(Router);
 
+  checkAdmin():boolean{
+    const user:any = JSON.parse(localStorage.getItem('user') || '');
+
+    if(user && user.role == 'Admin'){
+      return true
+    }
+    return false
+  }
+
+  logOut(){
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
+  }
 }

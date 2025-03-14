@@ -3,13 +3,21 @@
     <div class="logo"></div>
 
             <ul nzTheme="dark" nz-menu nzMode="inline"  >
-                <li nz-menu-item routerLink="/roles" routerLinkActive="ant-menu-item-selected">
-                  <nz-icon nzType="carry-out" nzTheme="outline" /> Roles
-                </li>
+                @if (checkAdmin()) {
+                    <li nz-menu-item routerLink="/roles" routerLinkActive="ant-menu-item-selected">
+                        <nz-icon nzType="carry-out" nzTheme="outline" /> Roles
+                      </li>
+                }
+              
                 <li nz-menu-item  routerLink="/users" routerLinkActive="ant-menu-item-selected">
                     <nz-icon nzType="user" nzTheme="outline" />  Users
                 </li>
+            
+                <li nz-menu-item (click)="logOut()" routerLinkActive="ant-menu-item-selected">
+                    <nz-icon nzType="logout" nzTheme="outline" />  Log Out
+                </li>
             </ul>
+
 
     </nz-sider>
     <nz-layout>

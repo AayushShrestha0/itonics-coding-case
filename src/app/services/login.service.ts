@@ -23,7 +23,9 @@ export class LoginService {
 
         if (user) {
           this.userLoggedIn = true;
-          localStorage.setItem('user', user);
+          console.log(user, 'user on login service');
+          
+          localStorage.setItem('user', JSON.stringify(user));
           resolve(true);
         }
         reject(false);

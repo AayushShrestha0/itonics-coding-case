@@ -8,14 +8,27 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const loggedInUserInfo = userInfo();
   
-  if(loggedInUserInfo){
-    return router.navigate(['/roles']);
+  if(loggedInUserInfo && loggedInUserInfo.role == 'Admin'){
+    
+    router.navigate(['/roles']);
+    return false
+  }else if(loggedInUserInfo && loggedInUserInfo.role){
+    router.navigate(['/users']);
+    return false
   }
   return true;
 }
 
 export const authChildGuard: CanActivateChildFn = (route, state) => {
   const user = userInfo();
+  const router = inject(Router);
+  console.log(user, typeof user);
+  
+  if(state.url == '/roles' && user.role != 'Admin'){
+    router.navigate(['/users']);
+    return false;
+ }
+
   if(user){
     return true;
   }
@@ -23,6 +36,9 @@ export const authChildGuard: CanActivateChildFn = (route, state) => {
 };
 
 const userInfo = () =>{
-  return localStorage.getItem('user');
-  
+  const user = localStorage.getItem('user');
+  if(user){
+    return JSON.parse(user);
+  }
+  return ''
 }
