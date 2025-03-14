@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginFormComponent } from './content/login-form/login-form.component';
 import { LayoutComponent } from './layout/layout.component';
 import { authChildGuard, authGuard } from './guards/auth-guard.guard';
+import { rolesResolver } from './resolvers/roles.resolver';
 
 export const routes: Routes = [
   {
@@ -11,12 +12,12 @@ export const routes: Routes = [
   },
   {
     path: '',
+    // canActivate:[authGuard],
     canActivateChild:[authChildGuard],
     component:LayoutComponent,
     children: [
       {
         path: 'users',
-        canActivate: [],
         loadComponent: () =>
           import('./content/users/users.component').then(
             (c) => c.UsersComponent
@@ -24,7 +25,7 @@ export const routes: Routes = [
       },
       {
         path: 'roles',
-        canActivate: [],
+        resolve: {data:rolesResolver},
         loadComponent: () =>
           import('./content/roles/roles.component').then(
             (c) => c.RolesComponent

@@ -1,7 +1,7 @@
 <div nzflex style="height: 10vh">
     <button nzIcon="plus" (click)="toggleEdit()">Create</button>
 </div>
-<nz-table #roleTable [nzData]="roleList" nzShowPagination="false">
+<nz-table #roleTable [nzData]="rolesList" nzShowPagination="false">
     <thead>
         <tr>
             <th>Role Name</th>
@@ -16,14 +16,14 @@
                 {{data.roleName}}
             </td>
             <td>
-                {{ data.allowedPermissions.join(",") }}
-            </td>
+                    {{ data.allowedPermissions.join(",") }}
+                            </td>
             <td>
                 <button nz-button (click)="editRole(index)">
                     <nz-icon nzType="edit"></nz-icon>
                 </button>
 
-                <button nz-button>
+                <button nz-button (click)="deleteRole(data.id)">
                     <nz-icon nzType="delete"></nz-icon>
                 </button>
             </td>
@@ -52,7 +52,7 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-control nzErrorTip="">
-                       <nz-select nzMode="multiple" nzPlaceHolder="Select Features to allow" [nzOptions]="permissions" formControlName="allowedPermissions" >
+                       <nz-select nzMode="multiple" nzPlaceHolder="Select Features to allow" [nzOptions]="features" formControlName="features" >
                        </nz-select>
                     </nz-form-control>
                 </nz-form-item>

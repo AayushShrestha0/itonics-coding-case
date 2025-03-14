@@ -1,6 +1,73 @@
 {
-    "users": [{"id":"1", "userName": "SuperAdmin", "fullName":"Admin", "role": "Admin", "password":"super@admin"}],
-    "roles":[{"id":"1","roleName": "Admin", "permissions":["Add", "Edit", "View", "Delete"]}],
-    "permissions":[{"id":"1", "value": "Add"},{"id":"2", "value": "Edit"},{"id":"3", "value": "View"},{"id":"4", "value": "Delete"}],
-    "features":[{"id":"1", "featureName": "View Password", "value": "viewPass"}]
+  "users": [
+    {
+      "id": "1",
+      "userName": "SuperAdmin",
+      "fullName": "Admin",
+      "role": "Admin",
+      "password": "super@admin"
+    }
+  ],
+  "roles": [
+    {
+      "id": "1",
+      "roleName": "ChangedAdmin",
+      "allowedPermissions": [
+        "Add",
+        "Edit",
+        "View",
+        "Delete"
+      ],
+      "features": [
+        "viewPass"
+      ]
+    },
+    {
+      "id": "7201",
+      "roleName": "NewRoleTest",
+      "allowedPermissions": [
+        "View"
+      ],
+      "features": null
+    },
+    {
+      "id": "d335",
+      "roleName": "NewRoleTest22",
+      "allowedPermissions": [
+        "View"
+      ],
+      "features": [
+        "viewPass"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "id": "1",
+      "label": "Adder",
+      "value": "Add"
+    },
+    {
+      "id": "2",
+      "label": "Edit",
+      "value": "Edit"
+    },
+    {
+      "id": "3",
+      "label": "View",
+      "value": "View"
+    },
+    {
+      "id": "4",
+      "label": "Delete",
+      "value": "Delete"
+    }
+  ],
+  "features": [
+    {
+      "id": "1",
+      "label": "View Password",
+      "value": "viewPass"
+    }
+  ]
 }
