@@ -1,7 +1,7 @@
 <div>
     <button nz-button (click)="toggleEdit()">Create User</button>
 </div>
-<nz-table #roleTable nzShowPagination="false">
+<nz-table #usersTable [nzData]="usersList" nzShowPagination="false">
     <thead>
         <tr>
             <th>User Name</th>
@@ -12,11 +12,28 @@
         </tr>
     </thead>
     <tbody>
-        @for (data of []; track data) {
+        @for (data of usersTable.data; track data; let index = $index) {
         <tr>
             <td>
+                {{data.userName}}
             </td>
             <td>
+                {{data.fullName}}
+            </td>
+            <td>
+                {{data.role}}
+            </td>
+            <td>
+                {{data.password}}
+            </td>
+            <td>
+                <button nz-button (click)="editUser(index)">
+                    <nz-icon nzType="edit"></nz-icon>
+                </button>
+
+                <button nz-button (click)="deleteUser(data.id)">
+                    <nz-icon nzType="delete"></nz-icon>
+                </button>
             </td>
         </tr>
         }
@@ -32,14 +49,14 @@
                     <nz-form-label>User Name</nz-form-label>
                     <nz-form-control nzErrorTip="">
                         <nz-input-group>
-                            <input nz-input type="text" placeholder="User Name" formControlName="" />
+                            <input nz-input type="text" placeholder="User Name" formControlName="userName" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label>Select Role</nz-form-label>
                     <nz-form-control nzErrorTip="">
-                        <nz-select nzPlaceHolder="Select Role" formControlName="">
+                        <nz-select nzPlaceHolder="Select Role" formControlName="role">
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
@@ -47,7 +64,7 @@
                     <nz-form-label>Full Name</nz-form-label>
                     <nz-form-control nzErrorTip="">
                         <nz-input-group>
-                            <input nz-input type="text" placeholder="Full Name" formControlName="" />
+                            <input nz-input type="text" placeholder="Full Name" formControlName="fullName" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -55,7 +72,7 @@
                     <nz-form-label>Password</nz-form-label>
                     <nz-form-control nzErrorTip="">
                         <nz-input-group>
-                            <input nz-input type="password" placeholder="Password" formControlName="" />
+                            <input nz-input type="password" placeholder="Password" formControlName="password" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>

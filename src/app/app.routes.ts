@@ -3,6 +3,7 @@ import { LoginFormComponent } from './content/login-form/login-form.component';
 import { LayoutComponent } from './layout/layout.component';
 import { authChildGuard, authGuard } from './guards/auth-guard.guard';
 import { rolesResolver } from './resolvers/roles.resolver';
+import { usersResolver } from './resolvers/users.resolver';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'users',
+        resolve: {data:usersResolver},
         loadComponent: () =>
           import('./content/users/users.component').then(
             (c) => c.UsersComponent
