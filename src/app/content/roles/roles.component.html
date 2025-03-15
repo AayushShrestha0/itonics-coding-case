@@ -10,13 +10,16 @@
         </tr>
     </thead>
     <tbody>
-        @for (data of roleTable.data; track data; let index = $index) {
+        @for (data of roleTable.data; track $index; let index = $index) {
         <tr>
             <td>
                 {{data.roleName}}
             </td>
             <td>
+                @if (data.allowedPermissions) {
                     {{ data.allowedPermissions.join(",") }}
+
+                }
             </td>
             <td>
                 <button class="action-buttons" nzTooltipTitle="Edit Role" nzTooltipPlacement="bottom"  nz-button nz-tooltip (click)="editRole(index)">

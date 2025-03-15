@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -26,12 +26,17 @@ export class UsersComponent implements OnInit{
   private userService = inject(UsersService);
   private route = inject(ActivatedRoute);
   private message = inject(NzMessageService);
+  private cdr = inject(ChangeDetectorRef);
   
   usersList: User[] = [];
   rolesList:any = [];
   openEdit: boolean = false;
   isEdit: boolean = false;
   editId: number = 1;
+
+  // isEditPermitted: boolean = false;
+  // isDeletePermitted: boolean = false;
+  // isCreatePermitted: boolean = false;
 
   userForm = this.fb.group({
     userName: ['', Validators.required, Validators.pattern(/\S/)],
@@ -56,9 +61,24 @@ export class UsersComponent implements OnInit{
 
       }
     });
-
   }
 
+  
+  checkForPermissions(permission: string){
+    const user = JSON.parse(localStorage.getItem('user')|| '');
+    if(user && user.role){
+      const role = this.rolesList.find((role: Role)=> role.roleName == user.role )
+      console.log(role, this.rolesList, 'role');
+      
+      if(role && role.allowedPermissions){
+        const permissionSet = new Set([...(role.allowedPermissions || []), ...(role.features || [])]);
+        
+        // this.isCreatePermitted = permissionSet.has('Add');
+        return permissionSet.has(permission);
+      }
+    }
+    return false;
+  }
 
   toggleEdit(){
     this.openEdit = !this.openEdit;
@@ -87,7 +107,7 @@ export class UsersComponent implements OnInit{
         nzDuration:3000
       })
     });
-
+    this.loadUsers();
   }
 
   editUser(index: number){
@@ -103,7 +123,17 @@ export class UsersComponent implements OnInit{
     this.userService.deleteUser(id).then(()=>{
       this.message.success('User deleted successfully!', {
         nzDuration:3000
-      })
+      });
+      this.loadUsers();
     });
+  }
+
+  loadUsers(){
+    console.log('loading users');
+    
+   this.userService.users.subscribe((users)=>{
+      this.usersList = [...users];
+      this.cdr.detectChanges();
+   });
   }
 }

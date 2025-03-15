@@ -12,14 +12,7 @@
       "userName": "username",
       "fullName": "user name",
       "password": "123",
-      "role": {
-        "id": "7201",
-        "roleName": "NewRoleTest",
-        "allowedPermissions": [
-          "View"
-        ],
-        "features": null
-      }
+      "role": "NewRoleTest"
     }
   ],
   "roles": [
@@ -33,7 +26,7 @@
         "Delete"
       ],
       "features": [
-        "viewPass"
+        "viewPassword"
       ]
     },
     {
@@ -52,6 +45,16 @@
       ],
       "features": [
         "viewPass"
+      ]
+    },
+    {
+      "id": "301d",
+      "roleName": "asdf",
+      "allowedPermissions": [
+        ""
+      ],
+      "features": [
+        ""
       ]
     }
   ],

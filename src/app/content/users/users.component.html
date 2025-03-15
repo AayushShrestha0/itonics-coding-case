@@ -1,5 +1,7 @@
 <div nzflex class="add-user-button-container">
-    <button nz-button nzType="primary" (click)="toggleEdit()">Add a New User <nz-icon nzType="plus-square" nzTheme="outline" /></button>
+    @if (checkForPermissions('Add')) {
+        <button nz-button nzType="primary" (click)="toggleEdit()">Add a New User <nz-icon nzType="plus-square" nzTheme="outline" /></button>
+    }
 </div>
 <nz-table #usersTable [nzData]="usersList" nzShowPagination="false">
     <thead>
@@ -7,7 +9,9 @@
             <th>User Name</th>
             <th>Full Name</th>
             <th>Role</th>
-            <th>Password</th>
+            @if (checkForPermissions('viewPassword')) {
+                <th>Password</th>
+            }
             <th>Actions</th>
         </tr>
     </thead>
@@ -23,16 +27,26 @@
             <td>
                 {{data.role}}
             </td>
+            @if (checkForPermissions('viewPassword')) {
+                <td>
+                    {{'*'.repeat(data.password.length)}}
+                </td>
+                <td>
+                    {{data.password}}
+                </td>
+            }
+           
             <td>
-                {{data.password}}
-            </td>
-            <td>
-                <button class="action-buttons" nzTooltipTitle="Edit User" nzTooltipPlacement="bottom"  nz-button nz-tooltip (click)="editUser(index)">
-                    <nz-icon nzType="edit"></nz-icon>
-                </button>
-                <button class="action-buttons" nzTooltipTitle="Delete User" nzTooltipPlacement="bottom"  nzPopconfirmTitle="Are you sure you want to delete?" nz-button nz-tooltip nz-popconfirm (nzOnConfirm)="deleteUser(data.id)">
-                    <nz-icon nzType="delete"></nz-icon>
-                </button>
+                @if (checkForPermissions('Edit')) {
+                    <button class="action-buttons" nzTooltipTitle="Edit User" nzTooltipPlacement="bottom"  nz-button nz-tooltip (click)="editUser(index)">
+                        <nz-icon nzType="edit"></nz-icon>
+                    </button>
+                }
+                @if (checkForPermissions('Delete')) {
+                    <button class="action-buttons" nzTooltipTitle="Delete User" nzTooltipPlacement="bottom"  nzPopconfirmTitle="Are you sure you want to delete?" nz-button nz-tooltip nz-popconfirm (nzOnConfirm)="deleteUser(data.id)">
+                        <nz-icon nzType="delete"></nz-icon>
+                    </button>
+                }
             </td>
         </tr>
         }

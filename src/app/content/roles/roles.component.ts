@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -26,6 +26,7 @@ export class RolesComponent implements OnInit {
   private fb = inject(FormBuilder);
   private rolesService = inject(RolesService);
   private message = inject(NzMessageService);
+  private cdr = inject(ChangeDetectorRef);
   
   openEdit:boolean = false;
   isEdit:boolean = false;
@@ -78,6 +79,8 @@ export class RolesComponent implements OnInit {
           this.message.success('Role updated successfully!', {
             nzDuration:3000
           });
+        this.loadRoles();
+
         });
         return
       }
@@ -86,7 +89,11 @@ export class RolesComponent implements OnInit {
         this.message.success('Role added successfully!', {
           nzDuration:3000
       });
+      this.loadRoles();
+
     });
+
+
   }
 
   editRole(index:number){
@@ -102,6 +109,14 @@ export class RolesComponent implements OnInit {
         this.message.success('Role deleted successfully!', {
           nzDuration:3000
         });
+        this.loadRoles();
       });
     }
+
+  loadRoles(){
+    this.rolesService.roles.subscribe((roles)=>{
+      this.rolesList =  [...roles];
+      this.cdr.detectChanges();
+    })
+  }
 }
