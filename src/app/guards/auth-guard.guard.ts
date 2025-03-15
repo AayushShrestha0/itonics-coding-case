@@ -1,11 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
-import { UsersService } from '../services/users.service';
-import { LoginService } from '../services/login.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-
   const loggedInUserInfo = userInfo();
   
   if(loggedInUserInfo && loggedInUserInfo.role == 'Admin'){
@@ -24,7 +21,7 @@ export const authChildGuard: CanActivateChildFn = (route, state) => {
   const router = inject(Router);
   console.log(user, typeof user);
   
-  if(state.url == '/roles' && user.role != 'Admin'){
+  if(state.url == '/roles' && user && user.role != 'Admin'){
     router.navigate(['/users']);
     return false;
  }
@@ -32,13 +29,14 @@ export const authChildGuard: CanActivateChildFn = (route, state) => {
   if(user){
     return true;
   }
+  router.navigate(['/login']);
   return false;
 };
 
 const userInfo = () =>{
-  const user = localStorage.getItem('user');
+  const user = sessionStorage.getItem('user');
   if(user){
     return JSON.parse(user);
   }
-  return ''
+  return '';
 }

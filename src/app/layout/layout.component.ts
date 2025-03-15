@@ -14,7 +14,7 @@ export class LayoutComponent {
   private router = inject(Router);
 
   checkAdmin():boolean{
-    const user:any = JSON.parse(localStorage.getItem('user') || '');
+    const user:any = JSON.parse(sessionStorage.getItem('user') || '');
 
     if(user && user.role == 'Admin'){
       return true
@@ -23,7 +23,7 @@ export class LayoutComponent {
   }
 
   logOut(){
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }

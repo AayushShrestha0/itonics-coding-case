@@ -19,7 +19,7 @@ export class LoginService {
         );
         if (user) {
           this.userLoggedIn = true;
-          localStorage.setItem('user', JSON.stringify(user));
+          sessionStorage.setItem('user', JSON.stringify(user));
           resolve(true);
         }
         reject(false);

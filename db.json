@@ -49,9 +49,20 @@
     },
     {
       "id": "301d",
-      "roleName": "asdf",
+      "roleName": "asdfd",
       "allowedPermissions": [
         ""
+      ],
+      "features": [
+        ""
+      ]
+    },
+    {
+      "id": "295d",
+      "roleName": "123",
+      "allowedPermissions": [
+        "",
+        "Delete"
       ],
       "features": [
         ""

@@ -11,11 +11,6 @@ export class UsersService {
 
   get users(): Observable<User[]>{
     return this.https.get<User[]>('http://localhost:3000/users');
-    // this.https.get('http://localhost:3000/users').subscribe((response)=>{
-    //   return response
-    // })
-
-    // return [];
   }
 
   addUser(params: any){

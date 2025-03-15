@@ -48,23 +48,26 @@ export class RolesComponent implements OnInit {
       this.features = value.features;
     });
 
-    this.rolesForm.get('userName')?.valueChanges.subscribe((value)=>{
-      const existingRole = this.rolesList.find((role)=> role.roleName == value );
-    });
+    this.rolesForm.get('roleName')?.valueChanges.subscribe((value)=>{
+     const existingRole = this.rolesList.find((role)=> role.roleName == value );
+      if(existingRole){
+        this.rolesForm.controls.roleName.setErrors({'error': 'Duplicate RoleName'})
+      }
+    }); 
   }
   toggleEdit(){
     this.openEdit = !this.openEdit;
     
-    if(!this.openEdit){
+    if(!this.openEdit || !this.isEdit){
       this.rolesForm.reset();
-      this.isEdit = false;
     }
   }
 
   saveChanges(){
     if(!this.rolesForm.valid){
-      this.rolesForm.markAllAsTouched();
-      this.rolesForm.updateValueAndValidity();
+      this.message.error('Form Invalid! Cannot Proceed.', {
+        nzDuration:3000
+      });
       return
     }
     const changes = this.rolesForm.value;
@@ -82,6 +85,8 @@ export class RolesComponent implements OnInit {
         this.loadRoles();
 
         });
+        this.toggleEdit();
+        this.isEdit = false;
         return
       }
     }
@@ -92,14 +97,13 @@ export class RolesComponent implements OnInit {
       this.loadRoles();
 
     });
-
-
+    this.toggleEdit();
   }
 
   editRole(index:number){
-      let role$ = this.rolesList[index];  
+      let role = this.rolesList[index];   
       this.editId = index;
-      this.rolesForm.patchValue(role$);
+      this.rolesForm.patchValue(role);
       this.isEdit = true;
       this.toggleEdit();
   }

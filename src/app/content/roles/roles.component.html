@@ -18,7 +18,6 @@
             <td>
                 @if (data.allowedPermissions) {
                     {{ data.allowedPermissions.join(",") }}
-
                 }
             </td>
             <td>
@@ -39,16 +38,16 @@
 <nz-modal [(nzVisible)]="openEdit" (nzOnCancel)="toggleEdit()" (nzOnOk)="saveChanges()" nzOkText="Save" nzTitle="Create Role">
     <ng-container *nzModalContent>
         <div>
-            <form nz-form action="" [formGroup]="rolesForm">
+            <form nz-form nzLayout="vertical" [formGroup]="rolesForm">
                 <nz-form-item>
                     <nz-form-label nzRequired>Role Name</nz-form-label>
-
-                    <nz-form-control nzErrorTip="Role name is required and should be unique!">
+                    <nz-form-control nzErrorTip="Role name is required and should be unique!" nzHasFeedback>
                         <nz-input-group>
                             <input nz-input type="text" placeholder="Role Name" formControlName="roleName" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
+
                 <nz-form-item>
                     <nz-form-label>Selet Permissions</nz-form-label>
 
@@ -57,9 +56,9 @@
                        </nz-select>
                     </nz-form-control>
                 </nz-form-item>
+
                 <nz-form-item>
                     <nz-form-label>Select Features</nz-form-label>
-
                     <nz-form-control nzErrorTip="">
                        <nz-select nzMode="multiple" nzPlaceHolder="Select Features to allow" [nzOptions]="features" formControlName="features" >
                        </nz-select>
