@@ -8,6 +8,7 @@ export const usersResolver: ResolveFn<any> = (route, state) => {
   const usersService = inject(UsersService);
   const rolesService = inject(RolesService);
 
+  //fetching all the required data for the component
   return forkJoin({
     users: usersService.users,
     roles: rolesService.roles

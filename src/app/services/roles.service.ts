@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Role } from '../models/roles.model';
 
@@ -7,8 +7,9 @@ import { Role } from '../models/roles.model';
   providedIn: 'root'
 })
 export class RolesService {
+  private https = inject(HttpClient)
 
-  constructor(private https: HttpClient) { }
+  //Handling all the outgoing request and response to and from the json-server
 
   get roles():Observable<Role[]>{
     return this.https.get<Role[]>('/roles')

@@ -13,13 +13,12 @@ export const routes: Routes = [
   },
   {
     path: '',
-    // canActivate:[authGuard],
     canActivateChild:[authChildGuard],
     component:LayoutComponent,
     children: [
       {
         path: 'users',
-        resolve: {data:usersResolver},
+        resolve: {data:usersResolver}, //resolver to fetch the data before loading the component
         loadComponent: () =>
           import('./content/users/users.component').then(
             (c) => c.UsersComponent
@@ -27,7 +26,7 @@ export const routes: Routes = [
       },
       {
         path: 'roles',
-        resolve: {data:rolesResolver},
+        resolve: {data:rolesResolver},  //resolver to fetch the data before loading the component
         loadComponent: () =>
           import('./content/roles/roles.component').then(
             (c) => c.RolesComponent

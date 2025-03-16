@@ -7,7 +7,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { map  } from 'rxjs';
+import { map } from 'rxjs';
 import { RolesService } from '../../services/roles.service';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { Role } from '../../models/roles.model';
@@ -42,12 +42,14 @@ export class RolesComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.route.data.pipe(map(data=>data['data'])).subscribe(value=>{
+    //Handling the data coming in from the resolver
+    this.route.data.pipe(map(resolvedData=>resolvedData['data'])).subscribe(value=>{
       this.rolesList = value.roles;
       this.permissions = value.permissions;
       this.features = value.features;
     });
 
+    //Subscribing to the value changs of roleName to check for existing role names
     this.rolesForm.get('roleName')?.valueChanges.subscribe((value)=>{
      const existingRole = this.rolesList.find((role)=> role.roleName == value );
       if(existingRole){
@@ -55,30 +57,30 @@ export class RolesComponent implements OnInit {
       }
     }); 
   }
+
+  //Controls the opening and closing of the modal and resets the form if an open edit is closed
   toggleEdit(){
     this.openEdit = !this.openEdit;
-    
     if(!this.openEdit || !this.isEdit){
       this.rolesForm.reset();
     }
   }
 
   saveChanges(){
+    //If form invalid return and does not proceed further
     if(!this.rolesForm.valid){
       this.message.error('Form Invalid! Cannot Proceed.', {
         nzDuration:3000
       });
       return
     }
-    const changes = this.rolesForm.value;
+    const formValue = this.rolesForm.value;
 
-    //create a new role if all okay
-
+    //If the operation is Edit, then call update and return or else call add to create a new role
     if(this.isEdit){
       const role = this.rolesList.find(role=> role.id == this.editId);
-
       if(role && role.id){
-        this.rolesService.updateRole(changes, role.id).then((resp)=>{
+        this.rolesService.updateRole(formValue, role.id).then((resp)=>{
           if(resp){
             this.message.success('Role updated successfully!', {
               nzDuration:3000
@@ -93,7 +95,7 @@ export class RolesComponent implements OnInit {
         return
       }
     }
-    this.rolesService.addRole(changes).then((resp)=>{
+    this.rolesService.addRole(formValue).then((resp)=>{
       if(resp){
         this.message.success('Role added successfully!', {
           nzDuration:3000
@@ -106,6 +108,7 @@ export class RolesComponent implements OnInit {
     this.toggleEdit();
   }
 
+  //Take the edit index, find the id of data, and store for calling the update AP, toggleEdit here opens the modal
   editRole(index:number){
       let role:any = this.rolesList[index];   
       this.editId = role['id'];
@@ -114,7 +117,7 @@ export class RolesComponent implements OnInit {
       this.toggleEdit();
   }
 
-    deleteRole(index:string){
+  deleteRole(index:string){
       this.rolesService.deleteRole(index).then((resp)=>{
         if(resp){
           this.message.success('Role deleted successfully!', {
@@ -125,8 +128,9 @@ export class RolesComponent implements OnInit {
       }).catch(error=>{
         console.log(error)
       });
-    }
+  }
 
+  //fetching the roles and calling the change detection to update the data on the table
   loadRoles(){
     this.rolesService.roles.subscribe((roles)=>{
       this.rolesList =  [...roles];

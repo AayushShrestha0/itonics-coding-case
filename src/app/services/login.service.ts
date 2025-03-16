@@ -7,19 +7,21 @@ import { User } from '../models/user.model';
 })
 export class LoginService {
   userService = inject(UsersService);
-  userLoggedIn = false;
 
   userLogin(username: string, password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.userService.users.subscribe((userData) => {
-        const users: User[] = userData;
-        const user = users.find(
+
+        //Get the users list and check the username and password, and login if both match, else reject
+        const usersList: User[] = userData;
+        const user = usersList.find(
           (udata: User) =>
             udata.userName == username && udata.password == password
         );
         if (user) {
-          this.userLoggedIn = true;
-          const {password, ...userWithoutPassword} = user;
+
+          //removing the password from user data before setting on session storage
+          const {password, ...userWithoutPassword} = user; 
           sessionStorage.setItem('user', JSON.stringify(userWithoutPassword));
           resolve(true);
         }

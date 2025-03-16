@@ -35,33 +35,40 @@ export class UsersComponent implements OnInit{
   usersList: UserWithPasswordVisibility[] = [];
   rolesList: Role[] = [];
   roleNamesList: string[] = [];
+  
   openEdit: boolean = false;
   isEdit: boolean = false;
   editId: string = '';
 
 
-  isEditPermitted: boolean = false;
-  isDeletePermitted: boolean = false;
-  isCreatePermitted: boolean = false;
-  isPasswordViewPermitted: boolean = false;
-  viewpassword: boolean = false;
-  passwordVisible:boolean = false;
-  isAdmin:boolean = false;
+  isEditPermitted: boolean = false; //For Edit button display
+  isDeletePermitted: boolean = false; //For Delete button display
+  isCreatePermitted: boolean = false; //For Add button display
+  isPasswordViewPermitted: boolean = false; //For Password View button display
+
+  formPasswordVisible:boolean = false; //For password view on modal input field
+  isAdmin:boolean = false; //To show Admin privilages
 
   userForm = this.fb.group({
-    userName: ['', [Validators.required, Validators.pattern(/^\S.*\S$/)]],
+    userName: ['', [Validators.required, Validators.pattern(/^\S.*\S$/)]],  //pattern validation for no spaces at the start and end of the username
     fullName:['', Validators.required],
-    password: ['', [Validators.required, Validators.pattern(/^\S*\S$/), Validators.minLength(5)]],
+    password: ['', [Validators.required, Validators.pattern(/^\S*\S$/), Validators.minLength(5)]],  //Patten validation restricts empty spaces in password 
     role:['', Validators.required]
   })
   
   ngOnInit() {
-    this.route.data.pipe(map(data=>data['data'])).subscribe(userData=>{
+    //Handling the data coming in from resolver
+    this.route.data.pipe(map(resolvedData=>resolvedData['data'])).subscribe(userData=>{
+
+      //mapping show password to toggle password view control on each row individually
       this.usersList = userData['users'].map((user:User)=> ({...user, showPassword: false}));
       this.rolesList = userData['roles'];
+
+      //creating an array of role names only to display on modal role field
       this.roleNamesList = this.rolesList.map((role: Role)=> role.roleName);
     });
 
+    //subscribing to the control value changes to check for existing user name, to prevent duplicates
     this.userForm.get('userName')?.valueChanges.subscribe((value)=>{
       const existingUsername = this.usersList.find((user: User)=> user.userName == value );
       if(existingUsername){
@@ -71,7 +78,9 @@ export class UsersComponent implements OnInit{
     this.checkForPermissions();
   }
 
-  
+  //Checking for permission by getting the role name from sessionstorage
+  //finding the role data on role list and creating a set with allowedPermissions and features
+  //setting the permission value to check permission in UI to show/hide actions
   checkForPermissions(){
     const user = JSON.parse(sessionStorage.getItem('user')|| '');
     if(user && user.role){
@@ -92,6 +101,7 @@ export class UsersComponent implements OnInit{
     return false;
   }
 
+  //Controls the opening and closing of the modal and resets the form if an open edit is closed
   toggleEdit(){
     this.openEdit = !this.openEdit;
     if(!this.openEdit || !this.isEdit){
@@ -100,27 +110,16 @@ export class UsersComponent implements OnInit{
     }
   }
 
-  validateFormFields(formGroup: FormGroup){
-    Object.keys(formGroup.controls).forEach((field)=>{
-      const control = formGroup.get(field);
-      if(control){
-        control.markAsTouched;
-        control.markAsDirty;
-        control.updateValueAndValidity;
-      }
-    })
-  }
-
   saveChanges(){
     const params = this.userForm.value;
     if(!this.userForm.valid){
-      this.validateFormFields(this.userForm);
       this.message.error('Form Invalid! Please fill the required fields appropriately.', {
         nzDuration:3000
       });
       return;
     }
 
+    //If edit mode, then call update and return or else call add to create a new role
     if(this.isEdit){
       this.userService.updateUser(params, this.editId).then((resp)=>{
         if(resp){
@@ -144,8 +143,9 @@ export class UsersComponent implements OnInit{
       this.message.success('User added successfully!', {
         nzDuration:3000
       })
+
+      //loading the users after getting a response
       this.loadUsers();
-        
       }
     }).catch(error=>{
       console.log(error)
@@ -175,6 +175,7 @@ export class UsersComponent implements OnInit{
     });
   }
 
+  //load the users and force a chance detection to update data of the table
   loadUsers(){ 
     this.userService.users.subscribe((users)=>{
       this.usersList = [...users];
@@ -182,11 +183,13 @@ export class UsersComponent implements OnInit{
    });
   }
 
+  //toggles password view for each row of the table
   toggleViewPasswordForRow(index: number){
     this.usersList[index].showPassword = !this.usersList[index].showPassword;
   }
 
+  //toggles password view on the modal new user form
   togglePasswordViewInForm(){
-    this.passwordVisible = !this.passwordVisible
+    this.formPasswordVisible = !this.formPasswordVisible
   }
 }

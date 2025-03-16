@@ -14,15 +14,16 @@ import { User } from '../models/user.model';
 export class LayoutComponent {
   private router = inject(Router);
 
+  //Checking if the user is admin to show roles navigation on sidebar
   checkAdmin():boolean{
     const user:User = JSON.parse(sessionStorage.getItem('user') || '');
-
     if(user && user.role == 'ADMIN'){
       return true
     }
     return false
   }
 
+  //Remove the item from seesion storage and navigate the user to /login page
   logOut(){
     sessionStorage.removeItem('user');
     this.router.navigate(['/login']);

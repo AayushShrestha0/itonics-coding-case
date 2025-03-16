@@ -116,11 +116,11 @@
                     <nz-form-label nzRequired>Password</nz-form-label>
                     <nz-form-control [nzErrorTip]="passwordErrTmpl">
                         <nz-input-group  [nzSuffix]="togglePasswordIcon">
-                            <input nz-input [type]="passwordVisible? 'text':'password'" placeholder="Password" formControlName="password" autocomplete="new-password"/>
+                            <input nz-input [type]="formPasswordVisible? 'text':'password'" placeholder="Password" formControlName="password" autocomplete="new-password"/>
                         </nz-input-group>
                         <ng-template #togglePasswordIcon>
                             <span>
-                                 <nz-icon [nzType]="passwordVisible? 'eye-invisible': 'eye'" nzTheme="outline" (click)="togglePasswordViewInForm()"/>
+                                 <nz-icon [nzType]="formPasswordVisible? 'eye-invisible': 'eye'" nzTheme="outline" (click)="togglePasswordViewInForm()"/>
                             </span>
                         </ng-template>
                         <ng-template #passwordErrTmpl let-control>
