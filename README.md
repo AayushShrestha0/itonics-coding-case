@@ -90,14 +90,5 @@ npm i</code></pre>
   <ul>
     <li><strong>db.json:</strong> Contains mock data for users, roles, and permissions. The JSON Server will serve this data.</li>
   </ul>
-
-  <h2>Important Files</h2>
-  <ul>
-    <li><code>src/app/services/login.service.ts</code>: Contains logic for handling login functionality.</li>
-    <li><code>src/app/services/user.service.ts</code>: Contains logic for interacting with the user-related API endpoints (CRUD).</li>
-    <li><code>src/app/services/role.service.ts</code>: Contains logic for interacting with the role-related API endpoints (CRUD).</li>
-    <li><code>src/app/components/user-management/user-list.component.ts</code>: Displays the list of users.</li>
-    <li><code>src/app/components/role-management/role-list.component.ts</code>: Displays the list of roles.</li>
-  </ul>
 </body>
 </html>
