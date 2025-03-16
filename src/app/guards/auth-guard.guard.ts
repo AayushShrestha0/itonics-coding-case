@@ -5,7 +5,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const loggedInUserInfo = userInfo();
   
-  if(loggedInUserInfo && loggedInUserInfo.role == 'Admin'){
+  if(loggedInUserInfo && loggedInUserInfo.role == 'ADMIN'){
     
     router.navigate(['/roles']);
     return false
@@ -21,7 +21,7 @@ export const authChildGuard: CanActivateChildFn = (route, state) => {
   const router = inject(Router);
   console.log(user, typeof user);
   
-  if(state.url == '/roles' && user && user.role != 'Admin'){
+  if(state.url == '/roles' && user && user.role != 'ADMIN'){
     router.navigate(['/users']);
     return false;
  }

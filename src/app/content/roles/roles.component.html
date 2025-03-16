@@ -6,6 +6,7 @@
         <tr>
             <th>Role Name</th>
             <th>Permissions</th>
+            <th>Features</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -21,13 +22,20 @@
                 }
             </td>
             <td>
-                <button class="action-buttons" nzTooltipTitle="Edit Role" nzTooltipPlacement="bottom"  nz-button nz-tooltip (click)="editRole(index)">
-                    <nz-icon nzType="edit"></nz-icon>
-                </button>
-
-                <button class="action-buttons" nzTooltipTitle="Delete Role" nzTooltipPlacement="bottom"  nzPopconfirmTitle="Are you sure you want to delete?" nz-button nz-tooltip nz-popconfirm (nzOnConfirm)="deleteRole(data.id)">
-                    <nz-icon nzType="delete"></nz-icon>
-                </button>
+                @if (data.features) {
+                    {{ data.features.join(",") }}
+                }
+            </td>
+            <td>
+                @if (data.roleName != 'ADMIN') {
+                    <button class="action-buttons" nzTooltipTitle="Edit Role" nzTooltipPlacement="bottom"  nz-button nz-tooltip (click)="editRole(index)">
+                        <nz-icon nzType="edit"></nz-icon>
+                    </button>
+    
+                    <button class="action-buttons" nzTooltipTitle="Delete Role" nzTooltipPlacement="bottom"  nzPopconfirmTitle="Are you sure you want to delete?" nz-button nz-tooltip nz-popconfirm (nzOnConfirm)="deleteRole(data.id)">
+                        <nz-icon nzType="delete"></nz-icon>
+                    </button>
+                }
             </td>
         </tr>
         }
@@ -41,10 +49,19 @@
             <form nz-form nzLayout="vertical" [formGroup]="rolesForm">
                 <nz-form-item>
                     <nz-form-label nzRequired>Role Name</nz-form-label>
-                    <nz-form-control nzErrorTip="Role name is required and should be unique!" nzHasFeedback>
+                    <nz-form-control [nzErrorTip]="errorTpl" nzHasFeedback>
                         <nz-input-group>
                             <input nz-input type="text" placeholder="Role Name" formControlName="roleName" />
                         </nz-input-group>
+                        <ng-template #errorTpl let-control>
+                            @if (control.errors?.['required']) {
+                              Rolename is required!
+                            }
+                            @if (control.errors?.['duplicateRoleName']) {
+                              Existing Rolename found. Please update!
+                            }
+                          </ng-template>
+                
                     </nz-form-control>
                 </nz-form-item>
 

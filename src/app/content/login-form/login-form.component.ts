@@ -12,6 +12,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
 import { LoginService } from '../../services/login.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-login-form',
@@ -22,6 +23,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     NzFormModule,
     NzInputModule,
     NzButtonModule,
+    NzIconModule
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
@@ -32,13 +34,14 @@ export class LoginFormComponent {
   private loginService = inject(LoginService);
   private message = inject(NzMessageService);
   
+  passwordVisible: boolean = false;
+
   loginForm = this.fb.group({
     username:['', [Validators.required]],
     password: ['', [Validators.required]]
   });
 
   submitForm() {
-    console.log(this.loginForm.value, 'form values on login');
     if(!this.loginForm.valid){
       return
     }
@@ -62,5 +65,9 @@ export class LoginFormComponent {
       });
 
     }
+  }
+
+  togglePasswordView(){
+    this.passwordVisible = !this.passwordVisible;
   }
 }

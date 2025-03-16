@@ -4,7 +4,7 @@
       "id": "1",
       "userName": "SuperAdmin",
       "fullName": "Admin",
-      "role": "Admin",
+      "role": "ADMIN",
       "password": "super@admin"
     },
     {
@@ -12,17 +12,16 @@
       "userName": "username",
       "fullName": "user name",
       "password": "123",
-      "role": "NewRoleTest"
+      "role": "123"
     }
   ],
   "roles": [
     {
       "id": "1",
-      "roleName": "Admin",
+      "roleName": "ADMIN",
       "allowedPermissions": [
         "Add",
         "Edit",
-        "View",
         "Delete"
       ],
       "features": [
@@ -32,17 +31,13 @@
     {
       "id": "7201",
       "roleName": "NewRoleTest",
-      "allowedPermissions": [
-        "View"
-      ],
+      "allowedPermissions": [],
       "features": null
     },
     {
       "id": "d335",
       "roleName": "NewRoleTest22",
-      "allowedPermissions": [
-        "View"
-      ],
+      "allowedPermissions": [],
       "features": [
         "viewPass"
       ]
@@ -50,23 +45,17 @@
     {
       "id": "301d",
       "roleName": "asdfd",
-      "allowedPermissions": [
-        ""
-      ],
-      "features": [
-        ""
-      ]
+      "allowedPermissions": [],
+      "features": []
     },
     {
       "id": "295d",
       "roleName": "123",
       "allowedPermissions": [
-        "",
-        "Delete"
+        "Delete",
+        "Edit"
       ],
-      "features": [
-        ""
-      ]
+      "features": []
     }
   ],
   "permissions": [
@@ -79,11 +68,6 @@
       "id": "2",
       "label": "Edit",
       "value": "Edit"
-    },
-    {
-      "id": "3",
-      "label": "View",
-      "value": "View"
     },
     {
       "id": "4",

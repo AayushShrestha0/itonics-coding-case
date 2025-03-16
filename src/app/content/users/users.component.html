@@ -41,27 +41,27 @@
                 }
             }
             <td>
-            @if(data.role != 'Admin'){    
-                @if (isEditPermitted) {
+            <!-- @if(data.role != 'ADMIN'){     -->
+                @if ((isEditPermitted && data.role != 'ADMIN') || isAdmin) {
                 <button class="action-buttons" nzTooltipTitle="Edit User" nzTooltipPlacement="bottom" nz-button
                     nz-tooltip (click)="editUser(index)">
                     <nz-icon nzType="edit"></nz-icon>
                 </button>
                 }
-                @if (isDeletePermitted) {
+                @if (isDeletePermitted && data.role != 'ADMIN') {
                 <button class="action-buttons" nzTooltipTitle="Delete User" nzTooltipPlacement="bottom"
                     nzPopconfirmTitle="Are you sure you want to delete?" nz-button nz-tooltip nz-popconfirm
                     (nzOnConfirm)="deleteUser(data.id)">
                     <nz-icon nzType="delete"></nz-icon>
                 </button>
                 }
-                @if (isPasswordViewPermitted) {
+                @if ((isPasswordViewPermitted && data.role != 'ADMIN') && isAdmin) {
                 <button class="action-buttons" nzTooltipTitle="Toggle Password View" nzTooltipPlacement="bottom"
-                    nz-button nz-tooltip (click)="toggleViewPassword(index)">
+                    nz-button nz-tooltip (click)="toggleViewPasswordForRow(index)">
                     <nz-icon nzType="eye" nzTheme="outline" />
                 </button>
                 }
-            }
+            <!-- } -->
             </td>
         </tr>
         }
@@ -75,10 +75,21 @@
             <form nz-form [formGroup]="userForm" nzLayout="vertical">
                 <nz-form-item>
                     <nz-form-label nzRequired>User Name</nz-form-label>
-                    <nz-form-control nzErrorTip="User Name is required and should be unique!" nzHasFeedback>
+                    <nz-form-control [nzErrorTip]="errorTpl" nzHasFeedback>
                         <nz-input-group>
                             <input nz-input type="text" placeholder="User Name" formControlName="userName"   autocomplete="off"/>
                         </nz-input-group>
+                        <ng-template #errorTpl let-control>
+                            @if (control.errors?.['required']) {
+                              Username is required!
+                            }
+                            @if (control.errors?.['duplicateUserName']) {
+                              Username should be unique. Existing Username found! 
+                            }
+                            @if (control.errors?.['pattern']) {
+                                Provide valid username with no empty spaces at the start or end.
+                            }
+                          </ng-template>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
@@ -86,7 +97,7 @@
                     <nz-form-control nzErrorTip="">
                         <nz-select nzPlaceHolder="Select Role" formControlName="role">
                             @for ($role of roleNamesList; track $index) {
-                            <nz-option [nzValue]="$role" [nzLabel]="$role" [nzDisabled]="$role == 'Admin'">
+                            <nz-option [nzValue]="$role" [nzLabel]="$role" [nzDisabled]="$role == 'ADMIN'">
                                 {{$role}}
                             </nz-option>
                             }
@@ -104,9 +115,14 @@
                 <nz-form-item>
                     <nz-form-label nzRequired>Password</nz-form-label>
                     <nz-form-control nzErrorTip="Password is required.">
-                        <nz-input-group>
-                            <input nz-input type="password" placeholder="Password" formControlName="password" autocomplete="new-password"/>
+                        <nz-input-group  [nzSuffix]="togglePasswordIcon">
+                            <input nz-input [type]="passwordVisible? 'text':'password'" placeholder="Password" formControlName="password" autocomplete="new-password"/>
                         </nz-input-group>
+                        <ng-template #togglePasswordIcon>
+                            <span>
+                                 <nz-icon [nzType]="passwordVisible? 'eye-invisible': 'eye'" nzTheme="outline" (click)="togglePasswordViewInForm()"/>
+                            </span>
+                        </ng-template>
                     </nz-form-control>
                 </nz-form-item>
             </form>

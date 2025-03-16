@@ -45,9 +45,11 @@ export class UsersComponent implements OnInit{
   isCreatePermitted: boolean = false;
   isPasswordViewPermitted: boolean = false;
   viewpassword: boolean = false;
+  passwordVisible:boolean = false;
+  isAdmin:boolean = false;
 
   userForm = this.fb.group({
-    userName: ['', [Validators.required, Validators.pattern(/\S/)]],
+    userName: ['', [Validators.required, Validators.pattern(/^\S.*\S$/)]],
     fullName:['', Validators.required],
     password: ['', Validators.required],
     role:['', Validators.required]
@@ -63,7 +65,7 @@ export class UsersComponent implements OnInit{
     this.userForm.get('userName')?.valueChanges.subscribe((value)=>{
       const existingUsername = this.usersList.find((user: User)=> user.userName == value );
       if(existingUsername){
-        this.userForm.controls.userName.setErrors({"error": "Duplicate UserName."})
+        this.userForm.controls.userName.setErrors({"duplicateUserName": "Duplicate UserName."})
       }
     });
     this.checkForPermissions();
@@ -73,6 +75,9 @@ export class UsersComponent implements OnInit{
   checkForPermissions(){
     const user = JSON.parse(sessionStorage.getItem('user')|| '');
     if(user && user.role){
+      if(user.role == 'ADMIN'){
+        this.isAdmin = true;
+      }
       const role = this.rolesList.find((role: Role)=> role.roleName == user.role )
 
       if(role && role.allowedPermissions){
@@ -111,7 +116,7 @@ export class UsersComponent implements OnInit{
     const params = this.userForm.value;
     if(!this.userForm.valid){
       this.validateFormFields(this.userForm);
-      this.message.error('Form Invalid! Cannot Proceed.', {
+      this.message.error('Form Invalid! Please fill the required fields appropriately.', {
         nzDuration:3000
       });
       return;
@@ -163,7 +168,11 @@ export class UsersComponent implements OnInit{
    });
   }
 
-  toggleViewPassword(index: number){
+  toggleViewPasswordForRow(index: number){
     this.usersList[index].showPassword = !this.usersList[index].showPassword;
+  }
+
+  togglePasswordViewInForm(){
+    this.passwordVisible = !this.passwordVisible
   }
 }

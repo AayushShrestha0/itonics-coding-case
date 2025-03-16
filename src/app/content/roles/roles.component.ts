@@ -37,8 +37,8 @@ export class RolesComponent implements OnInit {
 
   rolesForm = this.fb.group({
     roleName: ['', [Validators.required, Validators.pattern(/\S/)]],
-    allowedPermissions: [['']],
-    features: [['']]
+    allowedPermissions: [[]],
+    features: [[]]
   });
 
   ngOnInit() {
@@ -51,7 +51,7 @@ export class RolesComponent implements OnInit {
     this.rolesForm.get('roleName')?.valueChanges.subscribe((value)=>{
      const existingRole = this.rolesList.find((role)=> role.roleName == value );
       if(existingRole){
-        this.rolesForm.controls.roleName.setErrors({'error': 'Duplicate RoleName'})
+        this.rolesForm.controls.roleName.setErrors({'duplicateRoleName': 'Duplicate RoleName'})
       }
     }); 
   }
@@ -101,7 +101,7 @@ export class RolesComponent implements OnInit {
   }
 
   editRole(index:number){
-      let role = this.rolesList[index];   
+      let role:any = this.rolesList[index];   
       this.editId = index;
       this.rolesForm.patchValue(role);
       this.isEdit = true;

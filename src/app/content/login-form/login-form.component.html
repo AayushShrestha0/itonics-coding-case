@@ -12,9 +12,14 @@
             <nz-form-item>
                 <nz-form-label nzRequired>Password</nz-form-label>
                 <nz-form-control nzErrorTip="Password is required">
-                    <nz-input-group nzPrefixIcon="lock" >
-                        <input nz-input type="password" formControlName="password" placeholder="Password" autocomplete="new-password"/>
-                    </nz-input-group>
+                    <nz-input-group nzPrefixIcon="lock" [nzSuffix]="togglePasswordIcon">
+                        <input nz-input [type]="passwordVisible? 'text' : 'password'" formControlName="password" placeholder="Password" autocomplete="new-password" visibilityToggle="true"/>
+                        <ng-template #togglePasswordIcon>
+                            <span>
+                                 <nz-icon [nzType]="passwordVisible? 'eye-invisible': 'eye'" nzTheme="outline" (click)="togglePasswordView()"/>
+                            </span>
+                        </ng-template>
+                    </nz-input-group>  
                 </nz-form-control>
             </nz-form-item>
             <div>

@@ -12,7 +12,7 @@ export class LoginService {
   userLogin(username: string, password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.userService.users.subscribe((userData) => {
-        const users: any = userData;
+        const users: User[] = userData;
         const user = users.find(
           (udata: User) =>
             udata.userName == username && udata.password == password
