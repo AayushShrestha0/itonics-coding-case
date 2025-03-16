@@ -6,13 +6,6 @@
       "fullName": "Admin",
       "role": "ADMIN",
       "password": "super@admin"
-    },
-    {
-      "id": "eb5b",
-      "userName": "username",
-      "fullName": "user name",
-      "password": "123",
-      "role": "123"
     }
   ],
   "roles": [

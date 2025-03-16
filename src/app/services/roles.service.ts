@@ -11,20 +11,20 @@ export class RolesService {
   constructor(private https: HttpClient) { }
 
   get roles():Observable<Role[]>{
-    return this.https.get<Role[]>('http://localhost:3000/roles')
+    return this.https.get<Role[]>('/roles')
   }
 
   get permission(){
-    return this.https.get('http://localhost:3000/permissions');
+    return this.https.get('/permissions');
   }
 
   get features(){
-    return this.https.get('http://localhost:3000/features');
+    return this.https.get('/features');
   }
 
-  updateRole(params: any, index: number){
+  updateRole(params: any, index: string){
     return new Promise((resolve, reject)=>{
-    this.https.patch(`http://localhost:3000/roles/${index}`, params).subscribe(resp=>{
+    this.https.patch(`/roles/${index}`, params).subscribe(resp=>{
       if(resp){
         resolve(resp);
       }
@@ -34,7 +34,7 @@ export class RolesService {
 
   addRole(params:any){
     return new Promise((resolve, reject)=>{
-    this.https.post(`http://localhost:3000/roles`, params).subscribe((resp)=>{
+    this.https.post(`/roles`, params).subscribe((resp)=>{
       if(resp){
         resolve(resp);
       }
@@ -42,9 +42,9 @@ export class RolesService {
   });
   }
 
-  deleteRole(id:number){
+  deleteRole(id:string){
     return new Promise((resolve, reject)=>{
-      this.https.delete(`http://localhost:3000/roles/${id}`).subscribe((resp)=>{
+      this.https.delete(`/roles/${id}`).subscribe((resp)=>{
       if(resp){
         resolve(resp);
       }

@@ -30,13 +30,13 @@ export class RolesComponent implements OnInit {
   
   openEdit:boolean = false;
   isEdit:boolean = false;
-  editId:number = 0;
+  editId:string = '';
   permissions: Permission[] = [];
   rolesList: Role[] = [];
   features = [];
 
   rolesForm = this.fb.group({
-    roleName: ['', [Validators.required, Validators.pattern(/\S/)]],
+    roleName: ['', [Validators.required,  Validators.pattern(/^\S.*\S$/)]],
     allowedPermissions: [[]],
     features: [[]]
   });
@@ -75,26 +75,30 @@ export class RolesComponent implements OnInit {
     //create a new role if all okay
 
     if(this.isEdit){
-      const role = this.rolesList[this.editId];
+      const role = this.rolesList.find(role=> role.id == this.editId);
 
       if(role && role.id){
-        this.rolesService.updateRole(changes, role.id).then(()=>{
-          this.message.success('Role updated successfully!', {
-            nzDuration:3000
-          });
-        this.loadRoles();
-
+        this.rolesService.updateRole(changes, role.id).then((resp)=>{
+          if(resp){
+            this.message.success('Role updated successfully!', {
+              nzDuration:3000
+            });
+            this.loadRoles();
+          }
         });
         this.toggleEdit();
         this.isEdit = false;
         return
       }
     }
-    this.rolesService.addRole(changes).then(()=>{
+    this.rolesService.addRole(changes).then((resp)=>{
+      if(resp){
         this.message.success('Role added successfully!', {
           nzDuration:3000
       });
       this.loadRoles();
+      }
+       
 
     });
     this.toggleEdit();
@@ -102,18 +106,20 @@ export class RolesComponent implements OnInit {
 
   editRole(index:number){
       let role:any = this.rolesList[index];   
-      this.editId = index;
+      this.editId = role['id'];
       this.rolesForm.patchValue(role);
       this.isEdit = true;
       this.toggleEdit();
   }
 
-    deleteRole(index:number){
-      this.rolesService.deleteRole(index).then(()=>{
-        this.message.success('Role deleted successfully!', {
-          nzDuration:3000
-        });
-        this.loadRoles();
+    deleteRole(index:string){
+      this.rolesService.deleteRole(index).then((resp)=>{
+        if(resp){
+          this.message.success('Role deleted successfully!', {
+            nzDuration:3000
+          });
+          this.loadRoles();
+        }
       });
     }
 

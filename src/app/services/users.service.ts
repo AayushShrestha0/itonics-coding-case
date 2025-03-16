@@ -10,12 +10,12 @@ export class UsersService {
   private https = inject(HttpClient)
 
   get users(): Observable<User[]>{
-    return this.https.get<User[]>('http://localhost:3000/users');
+    return this.https.get<User[]>('/users');
   }
 
   addUser(params: any){
     return new Promise((resolve, reject)=>{
-    this.https.post('http://localhost:3000/users', params).subscribe((resp)=>{
+    this.https.post('/users', params).subscribe((resp)=>{
       if(resp){
         resolve(resp);
       }
@@ -23,9 +23,9 @@ export class UsersService {
   }); 
   }
 
-  updateUser(params: any, id: any){
+  updateUser(params: any, id: string){
     return new Promise((resolve, reject)=>{
-    this.https.patch(`http://localhost:3000/users/${id}`, params).subscribe((resp)=>{
+    this.https.patch(`/users/${id}`, params).subscribe((resp)=>{
       if(resp){
         resolve(resp);
       }
@@ -33,9 +33,9 @@ export class UsersService {
   });
   }
 
-  deleteUser(id: any){
+  deleteUser(id: string){
     return new Promise((resolve, reject)=>{
-      this.https.delete(`https://localhost:3000/users/${id}`).subscribe((resp)=>{
+      this.https.delete(`/users/${id}`).subscribe((resp)=>{
        if(resp){
           resolve(resp);
        }

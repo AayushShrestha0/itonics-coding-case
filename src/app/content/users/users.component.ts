@@ -37,7 +37,7 @@ export class UsersComponent implements OnInit{
   roleNamesList: string[] = [];
   openEdit: boolean = false;
   isEdit: boolean = false;
-  editId: number = 0;
+  editId: string = '';
 
 
   isEditPermitted: boolean = false;
@@ -123,22 +123,29 @@ export class UsersComponent implements OnInit{
     }
 
     if(this.isEdit){
-      this.userService.updateUser(params, this.editId).then(()=>{
-        this.message.success('User updated successfully!', {
-          nzDuration:3000
-        })
+      this.userService.updateUser(params, this.editId).then((resp)=>{
+        if(resp){
+          this.message.success('User updated successfully!', {
+            nzDuration:3000
+          });
+        }
+        
       });
-      this.editId = 0;
+      this.editId = '';
       this.toggleEdit();
       this.isEdit = false;
       return
     }
 
-    this.userService.addUser(params).then(()=>{
+    this.userService.addUser(params).then((resp)=>{
+      if(resp){
+        
       this.message.success('User added successfully!', {
         nzDuration:3000
       })
       this.loadUsers();
+        
+      }
     });
     this.toggleEdit();
   }
@@ -152,12 +159,14 @@ export class UsersComponent implements OnInit{
     this.isEdit = true;
   }
 
-  deleteUser(id:number){
-    this.userService.deleteUser(id).then(()=>{
-      this.message.success('User deleted successfully!', {
-        nzDuration:3000
-      });
-      this.loadUsers();
+  deleteUser(id:string){
+    this.userService.deleteUser(id).then((resp)=>{
+      if(resp){
+        this.message.success('User deleted successfully!', {
+          nzDuration:3000
+        });
+        this.loadUsers();  
+      }
     });
   }
 
