@@ -51,7 +51,7 @@ export class UsersComponent implements OnInit{
   userForm = this.fb.group({
     userName: ['', [Validators.required, Validators.pattern(/^\S.*\S$/)]],
     fullName:['', Validators.required],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.pattern(/^\S*\S$/), Validators.minLength(5)]],
     role:['', Validators.required]
   })
   
@@ -80,10 +80,9 @@ export class UsersComponent implements OnInit{
       }
       const role = this.rolesList.find((role: Role)=> role.roleName == user.role )
 
-      if(role && role.allowedPermissions){
+      if(role && (role.allowedPermissions || role.features)){
         const permissionSet = new Set([...(role.allowedPermissions || []), ...(role.features || [])]);
         
-        // this.isCreatePermitted = permissionSet.has('Add');
         this.isCreatePermitted =  permissionSet.has('Add');
         this.isEditPermitted =  permissionSet.has('Edit');
         this.isDeletePermitted =  permissionSet.has('Delete');
@@ -130,6 +129,8 @@ export class UsersComponent implements OnInit{
           });
         }
         
+      }).catch(error=>{
+        console.log(error)
       });
       this.editId = '';
       this.toggleEdit();
@@ -146,6 +147,8 @@ export class UsersComponent implements OnInit{
       this.loadUsers();
         
       }
+    }).catch(error=>{
+      console.log(error)
     });
     this.toggleEdit();
   }
@@ -167,6 +170,8 @@ export class UsersComponent implements OnInit{
         });
         this.loadUsers();  
       }
+    }).catch(error=>{
+      console.log(error)
     });
   }
 

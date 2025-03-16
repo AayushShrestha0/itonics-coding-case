@@ -6,6 +6,48 @@
       "fullName": "Admin",
       "role": "ADMIN",
       "password": "super@admin"
+    },
+    {
+      "id": "11b3",
+      "userName": "Editor",
+      "fullName": "Editor",
+      "password": "editor",
+      "role": "Editor"
+    },
+    {
+      "id": "235b",
+      "userName": "Viewer",
+      "fullName": "Viewer",
+      "password": "viewer",
+      "role": "ViewerOnly"
+    },
+    {
+      "id": "6732",
+      "userName": "Creator",
+      "fullName": "Creator",
+      "password": "creator",
+      "role": "Creator"
+    },
+    {
+      "id": "eece",
+      "userName": "Deletor",
+      "fullName": "Deletor",
+      "password": "deletor",
+      "role": "DeletePermitted"
+    },
+    {
+      "id": "2629",
+      "userName": "passViewer",
+      "fullName": "passviewer",
+      "password": "passviewer",
+      "role": "ViewPassOnly"
+    },
+    {
+      "id": "3d10",
+      "userName": "admin",
+      "fullName": "admin",
+      "password": "admin12",
+      "role": "admin"
     }
   ],
   "roles": [
@@ -22,33 +64,54 @@
       ]
     },
     {
-      "id": "7201",
-      "roleName": "NewRoleTest",
-      "allowedPermissions": [],
-      "features": null
-    },
-    {
-      "id": "d335",
-      "roleName": "NewRoleTest22",
-      "allowedPermissions": [],
-      "features": [
-        "viewPass"
-      ]
-    },
-    {
-      "id": "301d",
-      "roleName": "asdfd",
-      "allowedPermissions": [],
-      "features": []
-    },
-    {
-      "id": "295d",
-      "roleName": "123",
+      "id": "b1c2",
+      "roleName": "Editor",
       "allowedPermissions": [
-        "Delete",
         "Edit"
       ],
       "features": []
+    },
+    {
+      "id": "86f7",
+      "roleName": "DeletePermitted",
+      "allowedPermissions": [
+        "Delete"
+      ],
+      "features": null
+    },
+    {
+      "id": "c5d7",
+      "roleName": "Creator",
+      "allowedPermissions": [
+        "Add"
+      ],
+      "features": null
+    },
+    {
+      "id": "c3ff",
+      "roleName": "ViewPassOnly",
+      "allowedPermissions": null,
+      "features": [
+        "viewPassword"
+      ]
+    },
+    {
+      "id": "619b",
+      "roleName": "admin",
+      "allowedPermissions": [
+        "Add",
+        "Edit",
+        "Delete"
+      ],
+      "features": [
+        "viewPassword"
+      ]
+    },
+    {
+      "id": "bc66",
+      "roleName": "ViewerOnly",
+      "allowedPermissions": null,
+      "features": null
     }
   ],
   "permissions": [
@@ -72,7 +135,7 @@
     {
       "id": "1",
       "label": "View Password",
-      "value": "viewPass"
+      "value": "viewPassword"
     }
   ]
 }

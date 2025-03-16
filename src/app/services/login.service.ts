@@ -19,7 +19,8 @@ export class LoginService {
         );
         if (user) {
           this.userLoggedIn = true;
-          sessionStorage.setItem('user', JSON.stringify(user));
+          const {password, ...userWithoutPassword} = user;
+          sessionStorage.setItem('user', JSON.stringify(userWithoutPassword));
           resolve(true);
         }
         reject(false);

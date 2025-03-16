@@ -4,7 +4,7 @@
             nzTheme="outline" /></button>
     }
 </div>
-<nz-table #usersTable [nzData]="usersList" nzShowPagination="false">
+<nz-table #usersTable [nzData]="usersList" nzShowPagination="false" [nzScroll]="{ y: '70vh' }">
     <thead>
         <tr>
             <th>User Name</th>
@@ -55,7 +55,7 @@
                     <nz-icon nzType="delete"></nz-icon>
                 </button>
                 }
-                @if ((isPasswordViewPermitted && data.role != 'ADMIN') && isAdmin) {
+                @if ((isPasswordViewPermitted && data.role != 'ADMIN') || isAdmin) {
                 <button class="action-buttons" nzTooltipTitle="Toggle Password View" nzTooltipPlacement="bottom"
                     nz-button nz-tooltip (click)="toggleViewPasswordForRow(index)">
                     <nz-icon nzType="eye" nzTheme="outline" />
@@ -69,7 +69,7 @@
 </nz-table>
 
 <nz-modal [(nzVisible)]="openEdit" (nzOnCancel)="toggleEdit()" (nzOnOk)="saveChanges()" [nzOkText]="isEdit? 'Save' : 'Add' "
-    nzTitle="Create User">
+    nzTitle="Create User" >
     <ng-container *nzModalContent>
         <div>
             <form nz-form [formGroup]="userForm" nzLayout="vertical">
@@ -114,7 +114,7 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label nzRequired>Password</nz-form-label>
-                    <nz-form-control nzErrorTip="Password is required.">
+                    <nz-form-control [nzErrorTip]="passwordErrTmpl">
                         <nz-input-group  [nzSuffix]="togglePasswordIcon">
                             <input nz-input [type]="passwordVisible? 'text':'password'" placeholder="Password" formControlName="password" autocomplete="new-password"/>
                         </nz-input-group>
@@ -122,6 +122,17 @@
                             <span>
                                  <nz-icon [nzType]="passwordVisible? 'eye-invisible': 'eye'" nzTheme="outline" (click)="togglePasswordViewInForm()"/>
                             </span>
+                        </ng-template>
+                        <ng-template #passwordErrTmpl let-control>
+                            @if (control.errors?.['required']) {
+                                Password is required!
+                              }
+                              @if (control.errors?.['minlength']) {
+                                Password must be 5 character long! 
+                              }
+                              @if (control.errors?.['pattern']) {
+                                  Password should not contain space.
+                              }
                         </ng-template>
                     </nz-form-control>
                 </nz-form-item>

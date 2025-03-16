@@ -85,6 +85,8 @@ export class RolesComponent implements OnInit {
             });
             this.loadRoles();
           }
+        }).catch(error=>{
+          console.log(error)
         });
         this.toggleEdit();
         this.isEdit = false;
@@ -98,8 +100,8 @@ export class RolesComponent implements OnInit {
       });
       this.loadRoles();
       }
-       
-
+    }).catch(error=>{
+      console.log(error)
     });
     this.toggleEdit();
   }
@@ -120,6 +122,8 @@ export class RolesComponent implements OnInit {
           });
           this.loadRoles();
         }
+      }).catch(error=>{
+        console.log(error)
       });
     }
 

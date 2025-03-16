@@ -19,8 +19,6 @@ export const authGuard: CanActivateFn = (route, state) => {
 export const authChildGuard: CanActivateChildFn = (route, state) => {
   const user = userInfo();
   const router = inject(Router);
-  console.log(user, typeof user);
-  
   if(state.url == '/roles' && user && user.role != 'ADMIN'){
     router.navigate(['/users']);
     return false;

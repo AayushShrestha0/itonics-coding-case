@@ -1,7 +1,7 @@
 <div nzflex class="add-role-button-container">
     <button   nz-button nzType="primary" (click)="toggleEdit()">Add a new role <nz-icon nzType="plus-square" nzTheme="outline" /> </button>
 </div>
-<nz-table #roleTable [nzData]="rolesList" nzShowPagination="false">
+<nz-table #roleTable [nzData]="rolesList" nzShowPagination="false"  [nzScroll]="{ y: '70vh' }">
     <thead>
         <tr>
             <th>Role Name</th>

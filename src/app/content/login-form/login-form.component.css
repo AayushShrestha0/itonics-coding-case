@@ -1,13 +1,13 @@
 .login-container{
     padding-top:20vh;
     height: 100vh;
-    background-color: darkslateblue;
+    background-color: rgb(25, 17, 93);
 }
 
 .login-form{
     margin: auto;
     height: 45vh;
     width: 40vw;
-    background-color: rgb(139, 60, 170); 
+    background-color: rgb(84, 120, 180); 
     border-radius: 10px;
 }

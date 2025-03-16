@@ -24,31 +24,27 @@ export class RolesService {
 
   updateRole(params: any, index: string){
     return new Promise((resolve, reject)=>{
-    this.https.patch(`/roles/${index}`, params).subscribe(resp=>{
-      if(resp){
-        resolve(resp);
-      }
+    this.https.patch(`/roles/${index}`, params).subscribe({
+      next: (resp) =>  resolve(resp),
+      error: (err) => reject(err)
     });
   });
   }
 
   addRole(params:any){
     return new Promise((resolve, reject)=>{
-    this.https.post(`/roles`, params).subscribe((resp)=>{
-      if(resp){
-        resolve(resp);
-      }
+    this.https.post(`/roles`, params).subscribe({
+      next: (resp) =>  resolve(resp),
+      error: (err) => reject(err)
     });
   });
   }
 
   deleteRole(id:string){
     return new Promise((resolve, reject)=>{
-      this.https.delete(`/roles/${id}`).subscribe((resp)=>{
-      if(resp){
-        resolve(resp);
-      }
-      
+      this.https.delete(`/roles/${id}`).subscribe({
+        next: (resp) =>  resolve(resp),
+        error: (err) => reject(err)
     });
   });
   }
