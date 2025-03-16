@@ -40,7 +40,7 @@ npm i</code></pre>
     username: SuperAdmin
     password: super@admin
   </code></pre>
-  <p>The credentials for others users can be viewed on the db.json file where all the data is stored.</p>
+  <p>The credentials for others users can be viewed on the db.json file where all the data is stored. Additional users and roles can be created as needed.</p>
   <h2>Roles Permissions and Features Description</h2>
   <ul>
     <li>Edit: Allows the role to edit user details.</li>
