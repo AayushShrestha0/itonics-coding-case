@@ -22,31 +22,10 @@
       "role": "ViewerOnly"
     },
     {
-      "id": "6732",
-      "userName": "Creator",
-      "fullName": "Creator",
-      "password": "creator",
-      "role": "Creator"
-    },
-    {
-      "id": "eece",
-      "userName": "Deletor",
-      "fullName": "Deletor",
-      "password": "deletor",
-      "role": "DeletePermitted"
-    },
-    {
-      "id": "2629",
-      "userName": "passViewer",
-      "fullName": "passviewer",
-      "password": "passviewer",
-      "role": "ViewPassOnly"
-    },
-    {
       "id": "3d10",
       "userName": "admin",
       "fullName": "admin",
-      "password": "admin12",
+      "password": "admin",
       "role": "admin"
     }
   ],
@@ -117,7 +96,7 @@
   "permissions": [
     {
       "id": "1",
-      "label": "Adder",
+      "label": "Add",
       "value": "Add"
     },
     {
