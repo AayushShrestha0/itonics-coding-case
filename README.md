@@ -41,12 +41,12 @@ npm i</code></pre>
     password: super@admin
   </code></pre>
   <p>The credentials for others users can be viewed on the db.json file where all the data is stored. Additional users and roles can be created as needed.</p>
-  <h2>Roles Permissions and Features Description</h2>
+  <h2>Predefined Role Permissions and Features Description</h2>
   <ul>
     <li>Edit: Allows the role to edit user details.</li>
     <li>Add: Allows the role to create new users.</li>
     <li>Delete: Allows the role to delete users.</li>
-    <li>View Password: Allows the role to see user's password.</li>
+    <li>(feature) View Password: Allows the role to see user's password.</li>
   </ul>
   
   <h2>Application Features</h2>
